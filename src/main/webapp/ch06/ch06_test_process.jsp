@@ -15,6 +15,12 @@
 		.greyText{
 			color: lightgrey;
 		}
+		.title{
+			font-size:13pt; font-weight:bold; text-align:center;
+		}
+		.greeting{
+			color:black;font-weight:bold;
+		}
 	</style>
 </head>
 <body>
@@ -78,34 +84,21 @@
                     		각 선택에 따른 출력 형태로 1,2번 문제에 나오는 출력 려과를 출력해주세요!
                     	 -->
                     	 
-                    	 <select id="choose" style="width: 60;">
+                    	 <select id="choose" style="width: 100%; text-align:center;">
                     	 	<option value="" selected>-선택해주세요-</option>
                     	 	<option value="scriptlet">스크립틀릿</option>
                     	 	<option value="JSTL">JSTL</option>
                     	 </select>
-                    	 <br/>
+                    	 <br/><br/>
                     	 <%
-	                    	 	String type = request.getParameter("type");
-	                    	 	if(type!=null){
-	                    	 		if(type.equals("user")){
-	                    	 			type="사용자";
-	                    	 		} else {
-	                    	 			type="관리자";
-	                    	 		}
-	                    	 	}
+	                    	 	String type = request.getParameter("type").equals("user")?"사용자":"관리자";
 	                    	 	String name = request.getParameter("name");
 	                    	 	String id = request.getParameter("id");
 	                    	 	String pw = request.getParameter("pw");
 	                    	 	String phone1 = request.getParameter("phone1");
 	                    	 	String phone2 = request.getParameter("phone2");
 	                    	 	String phone3 = request.getParameter("phone3");
-	                    	 	String gender = request.getParameter("gender");
-	                    	 	if(gender.equals("male")){
-	                    	 		gender = "남자";
-	                    	 	} else {
-	                    	 		gender = "여자";
-	                    	 	}
-	                    	 	String etc = request.getParameter("etc");
+	                    	 	String gender = request.getParameter("gender").equals("male")?"남자":"여자";
 	                    	 	String hobby = "";
 	                    	 	String[] hobbyArr = request.getParameterValues("hobby");
 	                    	 	if(hobbyArr!=null){
@@ -127,7 +120,6 @@
 			                    	 			hobbyArr[i]="운동";
 			                    	 			break;
 		                    	 			default :
-			                    	 				
 		                    	 		}
 		                    	 		hobby += hobbyArr[i]+" ";
 									}
@@ -137,22 +129,22 @@
                     	 <table class="table table-bordered" id="table-scriptlet" style="display:none;">
                     	 	<tr>
                     	 		<td style="background-color: lightgrey;">
-                    	 			<p style="font-size:13pt; font-weight:bold;">스크립트 태그를 이용한 방법</p>
+                    	 			<p class="title">스크립트 태그를 이용한 방법</p>
                     	 		</td>
                     	 	</tr>
                     	 	
                     	 	<tr>
-                    	 		<td>
-                    	 			<p style="font-weight:bold;"><%=type %> '<%=name %>'님, 환영합니다!</p>
-                    	 			<p class="greyText">타입 : <%=type %></p>
-                    	 			<p class="greyText">아이디 : <%=id %></p>
-                    	 			<p class="greyText">비밀번호 : <%=pw %></p>
-                    	 			<p class="greyText">이름 : <%=name %></p>
-                    	 			<p class="greyText">핸드폰번호 : <%=phone1 %> - <%=phone2 %> - <%=phone3 %> </p>
-                    	 			<p class="greyText">성별 : <%=gender %></p>
-                    	 			<p class="greyText">취미 : <%=hobby %></p>
-                    	 			<p class="greyText">가입인사 : </p>
-                    	 			<p class="greyText"><%=greeting %></p>
+                    	 		<td class="greyText">
+                    	 			<p class="greeting"><%=type %> '<%=name %>'님, 환영합니다!</p>
+                    	 			<p>타입 : <%=type %></p>
+                    	 			<p>아이디 : <%=id %></p>
+                    	 			<p>비밀번호 : <%=pw %></p>
+                    	 			<p>이름 : <%=name %></p>
+                    	 			<p>핸드폰번호 : <%=phone1 %> - <%=phone2 %> - <%=phone3 %> </p>
+                    	 			<p>성별 : <%=gender %></p>
+                    	 			<p>취미 : <%=hobby %></p>
+                    	 			<p>가입인사 : </p>
+                    	 			<p><%=greeting %></p>
                     	 		</td>
                     	 	</tr>
                     	 </table>
@@ -160,12 +152,11 @@
                     	 <table class="table table-bordered" id="table-jstl" style="display:none;">
                     	 	<tr>
                     	 		<td style="background-color: lightgrey;">
-                    	 			<p style="font-size:13pt; font-weight:bold;">
-                    	 			JSTL을 이용한 방법</p>
+                    	 			<p class="title">JSTL을 이용한 방법</p>
                     	 		</td>
                     	 	</tr>
                     	 	<tr>
-                    	 		<td>
+                    	 		<td class="greyText">
                     	 			<c:choose>
                     	 				<c:when test="${param.type.equals('user') }">
                     	 					<c:set value="사용자" var="type"/>
@@ -174,13 +165,13 @@
                     	 					<c:set value="관리자" var="type"/>
                     	 				</c:otherwise>
                     	 			</c:choose>
-                    	 			<p style="font-weight:bold;">${type } '${param.name }'님, 환영합니다!</p>
-                    	 			<p class="greyText">타입 : ${type }</p>
-                    	 			<p class="greyText">아이디 : ${param.id}</p>
-                    	 			<p class="greyText">비밀번호 : ${param.pw}</p>
-                    	 			<p class="greyText">이름 : ${param.name}</p>
-                    	 			<p class="greyText">핸드폰번호 : ${param.phone1 } - ${param.phone2 } - ${param.phone3 }</p>
-                    	 			<p class="greyText">성별 : 
+                    	 			<p class="greeting">${type } '${param.name }'님, 환영합니다!</p>
+                    	 			<p>타입 : ${type }</p>
+                    	 			<p>아이디 : ${param.id}</p>
+                    	 			<p>비밀번호 : ${param.pw}</p>
+                    	 			<p>이름 : ${param.name}</p>
+                    	 			<p>핸드폰번호 : ${param.phone1 } - ${param.phone2 } - ${param.phone3 }</p>
+                    	 			<p>성별 : 
                     	 				<c:choose>
                     	 					<c:when test="${param.gender.equals('male') }">
                     	 						남자
@@ -190,7 +181,7 @@
                     	 					</c:otherwise>
                     	 				</c:choose>
                     	 			</p>
-                    	 			<p class="greyText">취미 : 
+                    	 			<p>취미 : 
                     	 				<c:if test="${not empty paramValues.hobby }">
 <%--                     	 				<c:if test="${fn:length(paramValues.hobby)>0 }"> --%>
 <%-- 	                    	 				<c:forEach begin="0" end="${fn:length(paramValues.hobby) }" step="1" var="i"> --%>
@@ -215,8 +206,8 @@
 	                    	 				</c:forEach>
                     	 				</c:if>
                     	 			</p>
-                    	 			<p class="greyText">가입인사 : </p>
-                    	 			<p class="greyText">${param.greeting }</p>
+                    	 			<p>가입인사 : </p>
+                    	 			<p>${param.greeting }</p>
                     	 		</td>
                     	 	</tr>
                     	 </table>
