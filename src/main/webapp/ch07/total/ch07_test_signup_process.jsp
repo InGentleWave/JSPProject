@@ -69,35 +69,46 @@
 							
 							Collection<Part> collect = request.getParts();
 							Iterator<Part> ite = collect.iterator();
+							String errMsg="";
 							while(ite.hasNext()){
 								Part part = ite.next();
 								String key = part.getName();
 								if(key.equals("profileImg")){
-									filename = request.getParameter(key);
+									filename = part.getSubmittedFileName();
+									System.out.println("signup 프로세스 filename : "+filename);
 									long fileSize = part.getSize();
 									if(maxSize < fileSize){
+										errMsg = "파일 크기 초과로 인해 회원가입 실패했습니다.";
 										flag = false;
 									} else {
-										part.write(path + "/" + filename);
+										if(filename!=null&&!filename.equals("")){
+											part.write(path + "/" + filename);
+										}
 									}
 								}
 							}
+							MemberDAO mDao = MemberDAO.getInstance();
+							String mem_id = request.getParameter("mem_id");
+							MemberVO mv2 = mDao.getMember(mem_id);
+							// 동일한 ID 존재 시 회원가입 실패.
+							if(mv2.getMem_id()!=null&&mv2.getMem_id().equals(mem_id)){
+								errMsg = "사용 불가능한 ID입니다.";
+								flag = false; 
+							}
 							if(flag){
 								MemberVO mv = new MemberVO();
-								mv.setMem_id(request.getParameter("mem_id"));
+								mv.setMem_id(mem_id);
 								mv.setMem_pw(request.getParameter("mem_pw"));
 								mv.setMem_name(request.getParameter("mem_name"));
 								mv.setMem_sex(request.getParameter("mem_sex"));
 								
 								mv.setFilename(filename);
 								
-								MemberDAO mDao = MemberDAO.getInstance();
 								mDao.insertMember(mv);
 								
-								session.setAttribute("msg",true);
 								response.sendRedirect("./ch07_test_signin.jsp");
 							} else {
-								session.setAttribute("msg", false);
+								session.setAttribute("errMsg", errMsg);
 								response.sendRedirect("./ch07_test_signup.jsp");
 							}
 							

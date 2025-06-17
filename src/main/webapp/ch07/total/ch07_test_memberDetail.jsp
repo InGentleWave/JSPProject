@@ -45,27 +45,32 @@
 							
 							3. [목록] 버튼 클릭 시, 목록페이지(ch07_test_memberList.jsp)로 이동해주세요.
 						 -->
+						 <%
+						 	String mem_id = request.getParameter("id");
+						 	MemberDAO memDao = MemberDAO.getInstance();
+						 	MemberVO memVo = memDao.getMember(mem_id);
+						 %>
 						<h3>회원 상세보기</h3>
 						<hr/>
-						<button type="button" class="btn btn-primary" onclick="javascript:location.href='ch07_test_memberList.jsp?id=<%=memId%>'">목록</button><br/>
+						<button type="button" class="btn btn-primary" onclick="javascript:location.href='ch07_test_memberList.jsp?id=<%=memVo.getMem_id()%>'">목록</button><br/>
 						<hr/>
 						<div class="row">
 							<div class="col-md-3">
 								<div class="card">
 									<div class="card-header text-center">
-										이름님의 정보
+										${memVo.getMem_name()}님의 정보
 									</div>
 									<div class="card-body text-center">
-										<img style="width:116px;" alt="" src="">
+										<img style="width:116px;" alt="" src="/resources/upload/<%=memVo.getFilename()%>">
 									</div>
 									<div class="card-body text-center">
-										아이디 : <br/>
-										비밀번호 : <br/>
-										이름 : <br/>
-										성별 : <br/>
+										아이디 : <%=memVo.getMem_id() %><br/>
+										비밀번호 : <%=memVo.getMem_pw()%><br/>
+										이름 : <%=memVo.getMem_name() %><br/>
+										성별 : <%=memVo.getMem_sex() %><br/>
 									</div>
 									<div class="card-footer text-center">
-										<button class="btn btn-secondary" onclick="javascript:location.href='ch07_test_memberDetail.jsp'">상세정보</button>
+										<button class="btn btn-secondary" onclick="javascript:location.href='ch07_test_memberDetail.jsp?id=<%=memVo.getMem_id()%>'">상세정보</button>
 									</div>
 								</div>
 							</div>

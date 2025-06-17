@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 <head>
@@ -57,8 +58,8 @@
 							3. 뒤로가기 버튼을 클릭 시, 로그인 페이지로 이동해주세요.
 						-->
 						<form action="./ch07_test_signup_process.jsp" onsubmit="return formSubmit(this)" method="post" enctype="multipart/form-data">
-							<div class="mb-3 row" id="alertDiv">
-								<p class="alertMsg">파일 크기 초과로 인해 회원가입 실패했습니다.</p>
+							<div class="alert alert-danger" id="alertDiv">
+								<p id="alertMsg">파일 크기 초과로 인해 회원가입 실패했습니다.</p>
 							</div>
 							<div class="mb-3 row">
 								<label for="id" class="col-sm-1 col-form-label">아이디</label>
@@ -100,18 +101,32 @@
 								<input class="btn btn-primary" type="submit" value="가입하기"/>
 								<button type="button" class="btn btn-primary" onclick="location.href='./ch07_test_signin.jsp'">뒤로가기</button>
 						</form>
-						<%
-								boolean isSignUpSuccess =session.getAttribute("msg") != null ? (boolean)session.getAttribute("msg"): true;
-								if(!isSignUpSuccess){
-									out.println("<script>");
-									out.println("document.querySelector('#alertDiv').style.display='block';");
-									out.println("setTimeout(function(){");
-									out.println("	document.querySelector('#alertDiv').style.display='none';");
-									out.println("},3000);");
-									out.println("</script>");
-									session.removeAttribute("msg");
-								}
-						%>
+						<c:set var ="errMsg" value="${sessionScope.errMsg }"></c:set>
+						<c:if test="${errMsg != null && errMsg !='' }">
+							<script>
+								document.querySelector('#alertDiv').style.display='block';
+								document.querySelector('#alertMsg').innerText="${errMsg}";
+								setTimeout(function(){
+									document.querySelector('#alertDiv').style.display='none';
+									document.querySelector('#alertMsg').innerText='';
+								},3000);
+							</script>
+									<c:remove var="errMsg" scope="session"/>
+						</c:if>
+<%-- 						<% --%>
+<!-- 								String signUpErrMsg =session.getAttribute("errMsg") != null ? (String)session.getAttribute("errMsg"): ""; -->
+<!-- 								if(signUpErrMsg!=null&&!signUpErrMsg.equals("")){ -->
+<!-- 									out.println("<script>"); -->
+<!-- 									out.println("document.querySelector('#alertDiv').style.display='block';"); -->
+<!-- 									out.println("document.querySelector('#alertMsg').innerText='" + signUpErrMsg + "';"); -->
+<!-- 									out.println("setTimeout(function(){"); -->
+<!-- 									out.println("	document.querySelector('#alertDiv').style.display='none';"); -->
+<!-- 									out.println("	document.querySelector('#alertMsg').innerText='';"); -->
+<!-- 									out.println("},3000);"); -->
+<!-- 									out.println("</script>"); -->
+<!-- 									session.removeAttribute("msg"); -->
+<!-- 								} -->
+<!-- 						%> -->
                     </div>
                 </div>
             </div>
