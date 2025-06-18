@@ -49,10 +49,11 @@
 						 	String mem_id = request.getParameter("id");
 						 	MemberDAO memDao = MemberDAO.getInstance();
 						 	MemberVO memVo = memDao.getMember(mem_id);
+						 	pageContext.setAttribute("memVo", memVo);
 						 %>
 						<h3>회원 상세보기</h3>
 						<hr/>
-						<button type="button" class="btn btn-primary" onclick="javascript:location.href='ch07_test_memberList.jsp?id=<%=memVo.getMem_id()%>'">목록</button><br/>
+						<button type="button" class="btn btn-primary" onclick="javascript:location.href='ch07_test_memberList.jsp?id=${memVo.getMem_id()}'">목록</button><br/>
 						<hr/>
 						<div class="row">
 							<div class="col-md-3">
@@ -61,16 +62,16 @@
 										${memVo.getMem_name()}님의 정보
 									</div>
 									<div class="card-body text-center">
-										<img style="width:116px;" alt="" src="/resources/upload/<%=memVo.getFilename()%>">
+										<img style="width:116px;" alt="" src="/resources/upload/${memVo.getFilename()}">
 									</div>
 									<div class="card-body text-center">
-										아이디 : <%=memVo.getMem_id() %><br/>
-										비밀번호 : <%=memVo.getMem_pw()%><br/>
-										이름 : <%=memVo.getMem_name() %><br/>
-										성별 : <%=memVo.getMem_sex() %><br/>
+										아이디 : ${memVo.getMem_id() }<br/>
+										비밀번호 : ${memVo.getMem_pw()}<br/>
+										이름 : ${memVo.getMem_name() }<br/>
+										성별 : ${memVo.getMem_sex() }<br/>
 									</div>
 									<div class="card-footer text-center">
-										<button class="btn btn-secondary" onclick="javascript:location.href='ch07_test_memberDetail.jsp?id=<%=memVo.getMem_id()%>'">상세정보</button>
+<%-- 										<button class="btn btn-secondary" onclick="javascript:location.href='ch07_test_memberDetail.jsp?id=${memVo.getMem_id()}'">상세정보</button> --%>
 									</div>
 								</div>
 							</div>

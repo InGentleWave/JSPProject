@@ -47,12 +47,9 @@
                     	4. 각 회원목록의 내용 중 [상세정보] 버튼 클릭 시, 해당 회원의 상세정보 페이지(ch07_test_memberDetail.jsp)로 이동해주세요.
                      -->
                      <%
-                     	String mem_id = (String) session.getAttribute("mem_id");
-                     	if(mem_id != null){
-                     		session.removeAttribute("mem_id");
-                     	} else {
-                     		mem_id = request.getParameter("id");
-                     	}
+                   		System.out.println("리스트 페이지에 mem_id Parameter통해 전달됨.");
+                   		String mem_id = request.getParameter("id");
+                   		
                      	MemberDAO memDao = MemberDAO.getInstance();
 						ArrayList<MemberVO> memList = memDao.getMemberList();
 						pageContext.setAttribute("memList",memList);
@@ -63,29 +60,29 @@
 						<button type="button" class="btn btn-primary" onclick="javascript:location.href='./ch07_test_signup.jsp'">회원등록</button><br/>
 						<hr/>
 						<div class="row">
-						<c:forEach items="${memList }" var="mv" varStatus="vs">
+						<c:forEach items="${memList }" var="mv" >
 							<div class="col-md-3">
 								<div class="card">
 									<div class="card-header text-center">
 									<c:choose>
-										<c:when test ="${mem_id.equals(mv.getMem_name())) }">
-										<span style="color:red">[본인]</span>&nbsp;${mem_id }님의 정보
+										<c:when test ="${mem_id == mv.getMem_id() }">
+											<span style="color:red">[본인]</span>&nbsp;${mem_id }님의 정보
 										</c:when>
 										<c:otherwise>
-s										${mv.getMem_name()}님의 정보
+											${mv.mem_name}님의 정보
 										</c:otherwise>
 									</c:choose>
 									</div>
 									<div class="card-body text-center">
-										<img style="width:116px;" alt="" src="/resources/upload/${mv.getFilename()}">
+										<img style="width:116px;" alt="" src="/resources/upload/${mv.filename}">
 									</div>
 									<div class="card-body text-center">
-										아이디 : ${mv.getMem_id() }<br/> 
-										이름 : ${mv.getMem_name() }<br/>
+										아이디 : ${mv.mem_id }<br/> 
+										이름 : ${mv.mem_name }<br/>
 									</div>
 									<div class="card-footer text-center">
-									<c:if test="${mem_id.equals(mv.getMem_name()) }">
-										<button class="btn btn-secondary" onclick="javascript:location.href='ch07_test_memberDetail.jsp?id='${mem_id}'">상세정보</button>
+									<c:if test="${mem_id == mv.getMem_name() }">
+										<button class="btn btn-secondary" onclick="javascript:location.href='ch07_test_memberDetail.jsp?id=${mv.mem_id}'">상세정보</button>
 									</c:if>
 									</div>
 								</div>

@@ -111,22 +111,8 @@
 									document.querySelector('#alertMsg').innerText='';
 								},3000);
 							</script>
-									<c:remove var="errMsg" scope="session"/>
+							<c:remove var="errMsg" scope="session"/>
 						</c:if>
-<%-- 						<% --%>
-<!-- 								String signUpErrMsg =session.getAttribute("errMsg") != null ? (String)session.getAttribute("errMsg"): ""; -->
-<!-- 								if(signUpErrMsg!=null&&!signUpErrMsg.equals("")){ -->
-<!-- 									out.println("<script>"); -->
-<!-- 									out.println("document.querySelector('#alertDiv').style.display='block';"); -->
-<!-- 									out.println("document.querySelector('#alertMsg').innerText='" + signUpErrMsg + "';"); -->
-<!-- 									out.println("setTimeout(function(){"); -->
-<!-- 									out.println("	document.querySelector('#alertDiv').style.display='none';"); -->
-<!-- 									out.println("	document.querySelector('#alertMsg').innerText='';"); -->
-<!-- 									out.println("},3000);"); -->
-<!-- 									out.println("</script>"); -->
-<!-- 									session.removeAttribute("msg"); -->
-<!-- 								} -->
-<!-- 						%> -->
                     </div>
                 </div>
             </div>

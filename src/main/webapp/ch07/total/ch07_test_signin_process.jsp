@@ -62,8 +62,7 @@
 								if(mem_pw.equals(memVo.getMem_pw())){
 									System.out.println("로그인 성공");
 									System.out.println("멤버목록 페이지로 진행합니다.");
-									session.setAttribute("mem_id", mem_id);
-									response.sendRedirect("./ch07_test_memberList.jsp");
+									response.sendRedirect("./ch07_test_memberList.jsp?id="+mem_id);
 								} else {
 									// ID는 일치하지만, PW가 일치하지 않는 경우									
 									System.out.println("비밀번호 불일치");

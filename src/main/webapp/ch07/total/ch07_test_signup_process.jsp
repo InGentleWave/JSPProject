@@ -105,7 +105,7 @@
 								mv.setFilename(filename);
 								
 								mDao.insertMember(mv);
-								
+								session.setAttribute("isSignUpSuccess",true);
 								response.sendRedirect("./ch07_test_signin.jsp");
 							} else {
 								session.setAttribute("errMsg", errMsg);
