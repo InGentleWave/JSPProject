@@ -1,4 +1,7 @@
+<%@page import="kr.or.ddit.ch17.vo.BoardVO"%>
+<%@page import="kr.or.ddit.ch17.dao.BoardRepository"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 <head>
@@ -56,6 +59,34 @@
 							> "정말로 삭제하시겠습니까?" 알림창이 나타나고, [취소]버튼을 클릭 시 알림창이 꺼질 수 있게 해주세요.
 						4. 목록 버튼 클릭 시, 목록 페이지(boardList.jsp)로 이동합니다.
 					 -->
+					 <%
+					 	BoardRepository br = BoardRepository.getInstance();
+					 	int no = Integer.parseInt(request.getParameter("no"));
+					 	BoardVO vo = br.getBoardById(no);
+					 	pageContext.setAttribute("vo", vo);
+					 %>
+					 <form action="./boardInsert.jsp" method="post" enctype="multipart/form-data">
+						 <table class="table table-bordered">
+						 	<tr>
+						 		<td width="135px">제목</td>
+						 		<td><c:out value=${vo.title }/></td>
+						 	</tr>
+						 	<tr>
+						 		<td>내용</td>
+						 		<td><c:out value=${vo.content }/></td>
+						 	</tr>
+						 	<tr>
+						 		<td>파일</td>
+						 		<td><a href="">${vo. }</a></td>
+						 	</tr>
+						 	<tr>
+						 		<td colspan="2">
+						 			<button type="submit" class="btn btn-primary" >등록</button>
+						 			<button type="button" class="btn btn-info" onclick="location.href='./boardList.jsp'">목록</button>
+						 		</td>
+						 	</tr>
+						 </table>
+					 </form>
                     </div>
                 </div>
             </div>

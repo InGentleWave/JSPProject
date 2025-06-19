@@ -1,3 +1,4 @@
+<%@page import="java.util.Iterator"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -22,4 +23,29 @@
 	users.put("b001", user2);
 	users.put("admin", admin);
 	//-------------------------------------------------
+	
+	String mem_id = request.getParameter("mem_id");
+	String mem_pw = request.getParameter("mem_pw");
+	
+	Iterator<String> ite = users.keySet().iterator();
+	boolean flag = false;
+	
+	while(ite.hasNext()){
+		String key = ite.next();
+		String[] user = users.get(key);
+		String user_id = user[0];
+		String user_pw = user[1];
+		if(user_id.equals(mem_id)&& user_pw.equals(mem_pw)) {
+			flag = true;
+			break;
+		}
+	}
+	
+	if(flag){
+		session.setAttribute("SessionInfo", mem_id);
+		response.sendRedirect("./boardList.jsp");
+	} else {
+		session.setAttribute("loginErr", "아이디와 비밀번호를 확인해 주세요" );
+		response.sendRedirect("./login.jsp");
+	}
 %>

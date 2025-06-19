@@ -107,22 +107,25 @@
         </div>
         <script>
         	const tds = document.querySelectorAll("td");
-        	let td = null;
-        	const chkVal = document.querySelector("#chk");
+        	let tdTarget = null;
+        	const chk = document.querySelector("#chk");
         	const output = document.querySelector("#output");
         	let html = "";									// text 저장소
+        	chk.addEventListener("change",function(){
+        		html = "";
+        	});
         	tds.forEach(function(td){
 	        	// td태그를 클릭했을 때
         		td.addEventListener("click",function(){
-        			td = this;
+        			tdTarget = this;
 //         			console.log(td.innerText);
-        			if(chkVal == 'Y'){				// append 여부가 체크되어 있으면
+        			if(chk.checked == true){				// append 여부가 체크되어 있으면
 		        		// 출력란에 줄줄이 내용을 추가하고,
-        				
+        				html += tdTarget.innerText +"<br>";
         			} else {						// 체크되어 있지 않으면
-        				html = "";
+//         				html = "";
         				// 출력란에 td의 내용을 출력하고
-        				html += "<p id='p'>" +td.innerText + "</p><br>";
+        				html += "<p id='p'>" +tdTarget.innerText + "</p><br>";
         				// 그 밑에 수정,삭제 버튼을 같이 출력한다.
         				html += "<button type='button' id='udtBtn' class='btn btn-warning'>수정</button>";
         				html += "<button type='button' id='delBtn' class='btn btn-danger'>삭제</button>";
@@ -132,6 +135,7 @@
         	})
         	document.addEventListener("click", function(e){
         		if(e.target.id == "udtBtn"){				// 출력란에 출력된 수정 버튼을 클릭했을 때
+        			console.log(tdTarget);
         			console.log("업데이트 버튼 클릭");
 		        	// 수정 버튼을 눌렀을 때와 확인 버튼을 눌렀을 때
 		        	if(e.target.innerText == "수정"){			// 버튼 text가 수정일 때
@@ -143,14 +147,19 @@
 						// 1. input 요소 안에 들어있는 수정된 text를 원래의 p태그 안에 결과로 출력한다.
 						let text = output.querySelector("input").value;
 						output.querySelector("#p").innerText = text; 
-						// input 입력 요소에 value인 text를 가져와 p태그에 출력
 						// 2. 버튼 text를 다시 수정으로 변경한다.
+						e.target.innerText = "수정";
 						// 3. td를 눌렀을 때 결과로 가져온 text가 포함된 영역, 즉 처음에 td를 눌렀을 때의 영역에 수정된 text를 출력
+						tdTarget.innerText = text;
 		        	}
         		} else if(e.target.id == "delBtn"){			// 출력란에 출력된 삭제 버튼을 클릭했을 때
+        			if(!confirm("삭제하시겠습니까?")){
+        				return false;
+        			}
 					// 1. 최초의 누른 td 초기화
+					tdTarget.innerText="";
 					// 2. 출력만 초기화
-        			console.log("삭제 버튼 클릭");
+					output.querySelector('#p').innerHTML = "";
         		}
         	});
 			

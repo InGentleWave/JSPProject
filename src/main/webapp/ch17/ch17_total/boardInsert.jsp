@@ -1,3 +1,9 @@
+<%@page import="kr.or.ddit.ch17.vo.BoardFileVO"%>
+<%@page import="kr.or.ddit.ch17.vo.BoardVO"%>
+<%@page import="java.io.File"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Collection"%>
+<%@page import="kr.or.ddit.ch17.dao.BoardRepository"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
@@ -49,6 +55,58 @@
 							# 작성자
 							> 작성자는 로그인 당시에 설정한 회원 정보의 아이디를 작성자로 넣어주세요.					
 					 -->
+					 <%
+					 	// 파일 저장할 경로 준비
+					 	String path =request.getServletContext().getRealPath("/resources/upload"); 
+					 	File folder = new File(path);
+					 	if(!folder.exists()) folder.mkdirs();
+					 	
+					 	// 파일 저장 준비
+					 	String filename = "";
+					 	int maxSize = 1*1024*1024;
+					 	boolean flag = true;
+					 	
+					 	// 입력한 게시글 정보 받아 가용하기
+					 	BoardRepository br = BoardRepository.getInstance();
+					 	BoardVO bv = new BoardVO();
+					 	BoardFileVO bfv = new BoardFileVO();
+					 	
+					 	int no = br.getNo();
+					 	String title = request.getParameter("title");
+					 	String content = request.getParameter("content");
+					 	bv.setNo(no);
+					 	bv.setTitle(title);
+					 	bv.setContent(content);
+					 	
+					 	
+					 	// 첨부 파일 정보 받아 가용하기
+					 	Collection<Part> collect = request.getParts();
+					 	Iterator<Part> ite = collect.iterator();
+					 	
+					 	while(ite.hasNext()){
+					 		Part part = ite.next();
+					 		String key = part.getName();
+					 		if(key.equals("file")){
+					 			filename = part.getSubmittedFileName();
+					 			long fileSize = part.getSize();
+					 			
+					 			if(maxSize < fileSize){
+					 				flag = false;
+					 			} else {
+					 				flag = true;
+					 				part.write(path + "/" + filename);// 파일 저장하기
+					 			}
+					 		}
+					 	}
+					 
+					 	if(flag){
+					 		br.addBoard(bv);
+					 		response.sendRedirect("./boardView.jsp?no=" + no);
+					 	} else {
+					 		session.setAttribute("insertErr", "업로드 파일 크기를 초과하였습니다.");
+					 		response.sendRedirect("./boardForm.jsp");
+					 	}
+					 %>
                     </div>
                 </div>
             </div>

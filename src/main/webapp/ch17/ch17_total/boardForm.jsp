@@ -50,6 +50,33 @@
 						2. 등록 버튼 클릭 시, 게시글 등록(boardInsert.jsp)을 진행해주세요.
 						3. 목록 버튼 클릭 시, 게시판 목록 페이지(boardList.jsp)로 이동해주세요
 					 -->
+					 <h3>게시글 등록</h3>
+					 <hr/>
+					 <div class="alert alert-danger alertMsg" style="display:none;">
+					 
+					 </div>
+					 <form action="./boardInsert.jsp" method="post" enctype="multipart/form-data">
+						 <table class="table table-bordered">
+						 	<tr>
+						 		<td width="135px">제목</td>
+						 		<td><input type="text" name="title" class="form-control" required/></td>
+						 	</tr>
+						 	<tr>
+						 		<td>내용</td>
+						 		<td><textarea rows="8" class="form-control" name="content" required></textarea></td>
+						 	</tr>
+						 	<tr>
+						 		<td>파일</td>
+						 		<td><input type="file" name="file"></td>
+						 	</tr>
+						 	<tr>
+						 		<td colspan="2">
+						 			<button type="submit" class="btn btn-primary" >등록</button>
+						 			<button type="button" class="btn btn-info" onclick="location.href='./boardList.jsp'">목록</button>
+						 		</td>
+						 	</tr>
+						 </table>
+					 </form>
                     </div>
                 </div>
             </div>

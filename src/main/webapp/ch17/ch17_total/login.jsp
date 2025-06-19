@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 <head>
@@ -58,6 +59,23 @@
 							비밀번호 : _________
 							[ 로그인  ]
 						 -->
+						 <form method="post" action="./login_process.jsp">
+							<c:if test="${sessionScope.loginErr != null && sessionScope.loginErr != '' }">
+								<div class="alert alert-danger alertMsg" id="alertLogin">
+									<p id="alertMsg">${sessionScope.loginErr }</p>
+								</div>
+								<script>
+									document.querySelector('#alertLogin').style.display='block';
+									setTimeout(function(){
+										document.querySelector('#alertLogin').style.display='none';
+									},3000);
+								</script>
+								<c:remove var="loginErr" scope="session"/>
+							</c:if>
+							아이디 : <input type="text" name="mem_id" class="form-control" required/> <br/>
+							비밀번호 : <input type="text" name="mem_pw" class="form-control" required/> <br/>
+							<input type="submit" class="btn btn-primary" value="로그인">
+						</form>
 					</div>
                 </div>
             </div>

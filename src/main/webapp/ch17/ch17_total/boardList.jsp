@@ -1,4 +1,8 @@
+<%@page import="kr.or.ddit.ch17.vo.BoardVO"%>
+<%@page import="java.util.List"%>
+<%@page import="kr.or.ddit.ch17.dao.BoardRepository"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="jakarta.tags.core" prefix="c"%>
 <!DOCTYPE html>
 <html class="no-js" lang="zxx">
 <head>
@@ -94,6 +98,47 @@
 						[게시판][자료실]
 						─────────────────────────────────────────────────────────────────────────────
 					 -->
+					 <%
+					 	BoardRepository br = BoardRepository.getInstance();
+					 	List<BoardVO> voList = br.selectBoardList();
+					 	System.out.println(voList);
+// 					 	pageContext.setAttribute("voList", voList);
+					 %>
+					 <h3>메뉴 박스</h3>
+					 <hr/>
+					 <div>
+					 	<button type="button" class="btn btn-primary">게시판</button>
+					 	<button type="button" class="btn btn-warning">자료실</button>
+					 	<button type="button" class="btn btn-danger">로그아웃</button>
+					 </div>
+					 <hr/>
+					 <table class="table table-bordered">
+					 	<tr>
+					 		<th width="10%">번호</th>
+					 		<th>제목</th>
+					 		<th width="10%">작성자</th>
+					 		<th width="15%">작성일</th>
+					 		<th width="10%">조회수</th>
+					 	</tr>
+					 	<c:set var="voList" value="<%=voList %>"/>
+					 	<c:choose>
+					 		<c:when test="${empty voList }">
+					 			<tr><td colspan="5">조회하실 게시글이 존재하지 않습니다.</td></tr>	
+					 		</c:when>
+					 		<c:otherwise>
+					 			<c:forEach items="${voList }" var="vo">
+					 				<tr>
+						 				<td>${vo.no }</td>
+						 				<td>${vo.title }</td>
+						 				<td>${vo.writer }</td>
+						 				<td>${vo.regDate }</td>
+						 				<td>${vo.hit }</td>
+					 				</tr>
+					 			</c:forEach>
+					 		</c:otherwise>
+					 	</c:choose>
+					 </table>
+					 <button type="button" class="btn btn-primary" onclick="location.href='./boardForm.jsp'">등록</button>
                     </div>
                 </div>
             </div>
